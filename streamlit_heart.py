@@ -79,19 +79,19 @@ with tab_predict:
 
         with col1:
             st.caption("예측에 영향이 큰 변수")
-            st_slope = st.selectbox("ST_Slope", ["Up", "Flat", "Down"])
-            exercise_angina = st.selectbox("ExerciseAngina", ["N", "Y"])
-            oldpeak = st.number_input("Oldpeak", min_value=-3.0, max_value=7.0, value=0.0, step=0.1)
-            cholesterol = st.number_input("Cholesterol", min_value=0, max_value=700, value=200)
-            chest_pain_type = st.selectbox("ChestPainType", ["ATA", "NAP", "ASY", "TA"])
+            st_slope = st.selectbox("ST_Slope (ST 분절 기울기)", ["Up", "Flat", "Down"])
+            exercise_angina = st.selectbox("ExerciseAngina (운동유발 협심증)", ["N", "Y"])
+            oldpeak = st.number_input("Oldpeak (ST 분절 하강)", min_value=-3.0, max_value=7.0, value=0.0, step=0.1)
+            cholesterol = st.number_input("Cholesterol (콜레스테롤)", min_value=0, max_value=700, value=200)
+            chest_pain_type = st.selectbox("ChestPainType (흉통 유형)", ["ATA", "NAP", "ASY", "TA"])
 
         with col2:
-            age = st.number_input("Age", min_value=1, max_value=120, value=50)
-            sex = st.selectbox("Sex", ["M", "F"])
-            max_hr = st.number_input("MaxHR", min_value=60, max_value=220, value=150)
-            resting_bp = st.number_input("RestingBP", min_value=0, max_value=250, value=120)
-            fasting_bs = st.selectbox("FastingBS (>120 mg/dl)", [0, 1])
-            resting_ecg = st.selectbox("RestingECG", ["Normal", "ST", "LVH"])
+            age = st.number_input("Age (나이)", min_value=1, max_value=120, value=50)
+            sex = st.selectbox("Sex (성별)", ["M", "F"])
+            max_hr = st.number_input("MaxHR (최대심박수)", min_value=60, max_value=220, value=150)
+            resting_bp = st.number_input("RestingBP (안정시 혈압)", min_value=0, max_value=250, value=120)
+            fasting_bs = st.selectbox("FastingBS (공복혈당 >120 mg/dl)", [0, 1])
+            resting_ecg = st.selectbox("RestingECG (안정시 심전도)", ["Normal", "ST", "LVH"])
 
         submitted = st.form_submit_button("예측하기")
 
