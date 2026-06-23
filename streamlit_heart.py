@@ -1,10 +1,12 @@
 import joblib
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 MODEL_PATH = "models/gb_model.pkl"
 FEATURE_COLUMNS_PATH = "models/feature_columns.pkl"
 FIGURES_DIR = "output/heart-figures"
+PROFILE_REPORT_PATH = "output/heart_ydata_profile_report.html"
 
 MODEL_COMPARISON = pd.DataFrame({
     "Accuracy": [0.875000, 0.885870, 0.896739, 0.880435, 0.880435],
@@ -44,6 +46,11 @@ with tab_eda:
         st.image(f"{FIGURES_DIR}/distribution_by_target.png", caption="HeartDisease 그룹별 변수 분포")
 
     st.image(f"{FIGURES_DIR}/outliers_boxplot.png", caption="이상치 분포 (Boxplot)", use_container_width=True)
+
+    st.subheader("ydata-profiling 리포트")
+    with open(PROFILE_REPORT_PATH, encoding="utf-8") as f:
+        profile_html = f.read()
+    components.html(profile_html, height=800, scrolling=True)
 
 with tab_compare:
     st.subheader("모델별 성능 비교")
