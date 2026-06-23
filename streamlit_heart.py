@@ -33,7 +33,17 @@ def encode_input(raw_input: pd.DataFrame, feature_columns: list[str]) -> pd.Data
 st.set_page_config(page_title="Heart Disease Prediction", page_icon="❤️", layout="wide")
 st.title("Heart Disease Prediction")
 
-tab_predict, tab_compare = st.tabs(["예측", "모델 비교"])
+tab_predict, tab_eda, tab_compare = st.tabs(["예측", "EDA", "모델 비교"])
+
+with tab_eda:
+    st.subheader("데이터 탐색")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(f"{FIGURES_DIR}/correlation_heatmap.png", caption="변수 간 상관관계")
+    with col2:
+        st.image(f"{FIGURES_DIR}/distribution_by_target.png", caption="HeartDisease 그룹별 변수 분포")
+
+    st.image(f"{FIGURES_DIR}/outliers_boxplot.png", caption="이상치 분포 (Boxplot)", use_container_width=True)
 
 with tab_compare:
     st.subheader("모델별 성능 비교")
