@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>심장질환 데이터셋 분석 과제 AI개발 수행내역서</title>
+<style>
+  body {
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: #222;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    line-height: 1.6;
+  }
+  .cover {
+    text-align: center;
+    padding: 80px 0 60px;
+  }
+  .cover h2 { font-size: 20px; margin-bottom: 8px; }
+  .cover h1 { font-size: 34px; margin-top: 0; }
+  .cover-table {
+    width: 70%;
+    margin: 60px auto;
+    border-collapse: collapse;
+  }
+  .cover-table td, .cover-table th {
+    border: 1px solid #333;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .cover-table th { width: 110px; background: #f5f5f5; }
+  .cover-date { margin-top: 100px; font-size: 18px; text-align: center; }
+  .page-break { page-break-before: always; margin-top: 60px; }
+  h2.section-title {
+    border: 2px solid #c0392b;
+    color: #c0392b;
+    padding: 8px 16px;
+    font-size: 20px;
+    display: inline-block;
+    margin: 30px 0 20px;
+  }
+  h3.result-title {
+    border: 2px solid #c0392b;
+    color: #c0392b;
+    padding: 8px 16px;
+    font-size: 20px;
+    margin: 40px 0 20px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 14px 0 20px;
+    font-size: 14px;
+  }
+  table th, table td {
+    border: 1px solid #888;
+    padding: 8px 10px;
+  }
+  table th { background: #eee; }
+  .highlight { background: #d4f542; font-weight: bold; }
+  .note-red { color: #c0392b; font-weight: bold; }
+  .note-blue { color: #1a5fb4; font-weight: bold; }
+  .figure {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .figure img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+  }
+  .figure-cap { font-size: 13px; color: #555; margin-top: 6px; }
+  .toc-list { list-style: none; padding-left: 4px; }
+  .toc-list li { margin: 4px 0; }
+  ul.bullet { padding-left: 18px; }
+  .profile-box {
+    border: 1px solid #888;
+    padding: 14px;
+    margin: 14px 0;
+  }
+  .profile-box h4 { margin: 0 0 6px; color: #1a5fb4; }
+  .badge {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 13px;
+  }
+  .profile-grid div { padding: 2px 0; }
+  .footer-page { text-align: center; color: #888; margin-top: 30px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<!-- ============ Cover Page ============ -->
+<div class="cover">
+  <h2>2026년도 임상 데이터셋 분석 과제</h2>
+  <h1>AI개발 수행내역서</h1>
+</div>
+
+<table class="cover-table">
+  <tr><th>과제명</th><td>임상 데이터를 통한 심장질환 발생 예측</td></tr>
+  <tr><th>담당자</th><td>고무서</td></tr>
+</table>
+
+<div class="cover-date">2026년&nbsp;&nbsp;6월&nbsp;&nbsp;22일</div>
+
+<div class="footer-page">- 1 -</div>
+
+<!-- ============ Page 2: AI개발 수행내용 ============ -->
+<div class="page-break"></div>
+<h2 class="section-title">AI개발 수행내용</h2>
+
+<p><strong>사업과제</strong> : 임상 데이터를 이용한 심장질환 발생 여부 예측 및 위험 변수 도출</p>
+
+<p>📋 순서</p>
+<ol class="toc-list">
+  <li>① 프로젝트 개요</li>
+  <li>② 데이터 분석 및 전처리 과정</li>
+  <li>③ 모델학습 및 최적화 과정</li>
+  <li>④ 결과 시각화 및 평가</li>
+  <li>⑤ 데이터 프로파일링 리포트</li>
+</ol>
+
+<h3>1. 프로젝트 개요</h3>
+<h4>1.1 추진배경 및 목적</h4>
+<ul class="bullet">
+  <li>심장질환(Heart Disease)은 전 세계 사망원인 1위에 해당하는 질환으로, 조기 발견과 예방이 핵심 과제로 꼽힌다.</li>
+  <li>흉통 유형, 혈압, 콜레스테롤, 운동 시 협심증 여부 등 임상 검진 항목만으로 질환 발생 위험을 사전에 선별할 수 있다면 추가 정밀검사 대상자를 효율적으로 선정할 수 있다.</li>
+  <li>실제로는 정상 판정을 받았으나 위험 신호를 놓치는 경우, 반대로 불필요한 정밀검사가 남발되는 경우가 동시에 발생하고 있다.</li>
+  <li>임상 검진 데이터를 기반으로 심장질환 발생을 정확히 예측하는 모델을 구축하여, 기존 검진 프로세스의 선별 정확도를 높이기 위한 참고 자료를 만드는 것을 목표로 한다.</li>
+</ul>
+
+<h4>1.2 과제 범위</h4>
+<table>
+  <tr><th>과제구분</th><th>내용</th></tr>
+  <tr>
+    <td rowspan="6" style="text-align:center;">AI</td>
+    <td>임상 검진 데이터를 이용하여 심장질환 발생 여부 예측</td>
+  </tr>
+  <tr><td>데이터 전처리, 표준화, 상관관계 분석(EDA 도구 활용)</td></tr>
+  <tr><td>분류모델 선정 및 학습</td></tr>
+  <tr><td>Accuracy, ROC-AUC 등 평가지표를 활용한 모델 성능 평가</td></tr>
+  <tr><td>변수 중요도 및 회귀 계수를 통한 위험 요인 해석</td></tr>
+  <tr><td>테스트</td></tr>
+</table>
+
+<div class="footer-page">- 2 -</div>
+
+<!-- ============ Page 3: 추진 방법 ============ -->
+<div class="page-break"></div>
+<h4>1.3 과제 추진 방법</h4>
+<p><strong>1) 구축 대상 선정 기준</strong></p>
+<ul class="bullet">
+  <li>변수를 최대한 통제하기 위해 단일 검진 기준(휴식 시 측정값)으로 수집된 공개 임상 데이터셋을 분석 대상으로 선정한다.</li>
+  <li>나이, 혈압, 콜레스테롤, 최대심박수 등 임상 지표와 심장질환 발생 여부가 밀접한 관련이 있다는 가설을 세우고, 관련 데이터를 분석 대상으로 사용한다.</li>
+  <li>임상 데이터의 요소는 흉통 유형, 안정시 혈압, 콜레스테롤, 공복혈당, 심전도, 최대심박수, 운동유발 협심증, ST 분절 하강 등이다.</li>
+  <li>정확하고 신뢰성 있는 분석을 위해 결측치/이상치 처리, 다중공선성 분석을 선행한다.</li>
+</ul>
+
+<p><strong>2) AI 예측 분석모델 적용 대상</strong></p>
+<table>
+  <tr><th>구분</th><th>수집 데이터</th><th>예측모델인자(독립변수)</th><th>AI예측 분석 대상</th></tr>
+  <tr>
+    <td>심장질환<br>발생 예측</td>
+    <td>- 임상 검진 데이터(918건)</td>
+    <td>
+      - 나이, 성별<br>
+      - 흉통 유형(ChestPainType)<br>
+      - 안정시 혈압(RestingBP)<br>
+      - 콜레스테롤(Cholesterol)<br>
+      - 공복혈당(FastingBS)<br>
+      - 안정시 심전도(RestingECG)<br>
+      - 최대심박수(MaxHR)<br>
+      - 운동유발 협심증(ExerciseAngina)<br>
+      - ST 분절 하강(Oldpeak), ST 기울기
+    </td>
+    <td>임상 검진 데이터를 통한 심장질환 발생 여부 예측</td>
+  </tr>
+</table>
+
+<p><strong>3) AI 분석모델 구축 프로세스</strong></p>
+<p>DATA IMPORTING(임상 데이터 수집) → 데이터 전처리(결측치·이상치 처리, 인코딩, 스케일링) → 모델링(로지스틱회귀, 랜덤포레스트, 부스팅 계열 비교 및 최적화) → 예측(질환 발생 확률 산출) → USER INSIGHT(위험 변수 해석 및 선별 기준 제시)</p>
+
+<div class="footer-page">- 3 -</div>
+
+<!-- ============ Page 4: 연구개발 주요 결과물 ============ -->
+<div class="page-break"></div>
+<h3 class="result-title">연구개발 주요 결과물</h3>
+
+<h4>1. 데이터 수집</h4>
+<p><strong>가. 데이터 출처</strong></p>
+<ul class="bullet">
+  <li>임상 검진 데이터 : Kaggle 공개 데이터셋, Heart Failure Prediction Dataset (heart.csv)</li>
+</ul>
+
+<p><strong>나. 데이터 개요</strong></p>
+<p>총 918건의 임상 검진 레코드를 이용하며, 1건당 1명의 환자에 대한 단일 시점 검진 결과를 담고 있다.</p>
+<table>
+  <tr><th>구분</th><th>성분</th><th>설명</th></tr>
+  <tr><td rowspan="2">기본정보</td><td>Age</td><td>나이</td></tr>
+  <tr><td>Sex</td><td>성별 (M/F)</td></tr>
+  <tr><td rowspan="2">혈압/콜레스테롤</td><td>RestingBP</td><td>안정시 혈압 (단위: mmHg)</td></tr>
+  <tr><td>Cholesterol</td><td>혈청 콜레스테롤 (단위: mg/dl)</td></tr>
+  <tr><td>혈당</td><td>FastingBS</td><td>공복혈당 120mg/dl 초과 여부 (1=초과, 0=이하)</td></tr>
+  <tr><td rowspan="3">검진소견</td><td>ChestPainType</td><td>흉통 유형 (TA, ATA, NAP, ASY)</td></tr>
+  <tr><td>RestingECG</td><td>안정시 심전도 결과 (Normal, ST, LVH)</td></tr>
+  <tr><td>MaxHR</td><td>운동 중 최대심박수</td></tr>
+  <tr><td rowspan="2">운동검사</td><td>ExerciseAngina</td><td>운동유발 협심증 여부 (Y/N)</td></tr>
+  <tr><td>Oldpeak</td><td>ST 분절 하강 정도</td></tr>
+  <tr><td>기울기</td><td>ST_Slope</td><td>ST 분절 기울기 (Up, Flat, Down)</td></tr>
+  <tr><td>타깃</td><td>HeartDisease</td><td>심장질환 발생 여부 (1=발생, 0=정상)</td></tr>
+</table>
+
+<h4>2. 데이터 전처리 및 특성 분석</h4>
+<p><strong>가. 탐색적 데이터 분석 및 처리</strong></p>
+<p>○ 데이터셋 구성</p>
+<p>918건의 단일 테이블 데이터로, 결측치는 명목상 존재하지 않으나 RestingBP, Cholesterol 항목에 비정상적인 0 값이 결측치 대용으로 입력되어 있는 문제가 확인되었다.</p>
+
+<div class="figure">
+  <img src="output/heart-figures/missing_counts.png" alt="결측치(0값) 개수">
+  <div class="figure-cap">[그림] 컬럼별 결측치(0값) 개수</div>
+</div>
+
+<p>○ 0값 처리 전 주요 변수별 분포</p>
+<div class="figure">
+  <img src="output/heart-figures/raw_distributions_hist.png" alt="0값 처리 전 주요 변수별 분포 히스토그램">
+  <div class="figure-cap">[그림] RestingBP·Cholesterol 0값 처리 전 주요 수치형 변수(Age, RestingBP, Cholesterol, MaxHR, Oldpeak) 분포</div>
+</div>
+<p>Cholesterol 히스토그램에서 0 근처에 비정상적으로 튀는 막대가 확인되며, 이는 해당 값들이 실제 측정값이 아닌 결측치 대용으로 입력되었음을 시각적으로 보여준다.</p>
+
+<p><span class="note-red">RestingBP가 0인 행은 1건으로 정상적인 측정값일 수 없으므로 해당 행은 삭제 처리했다.</span> Cholesterol이 0인 행은 172건(전체의 약 19%)으로 다수를 차지하여 단순 삭제 시 정보 손실이 크다고 판단, <span class="note-red">HeartDisease(타깃) 그룹별 중앙값으로 대체(imputation)</span>했다. 대체 후 전체 평균 콜레스테롤은 244.57mg/dl이다.</p>
+
+<div class="footer-page">- 4 -</div>
+
+<!-- ============ Page 5: 이상치/다중공선성 ============ -->
+<div class="page-break"></div>
+<p>○ 중복행 확인</p>
+<p>중복 레코드는 0건으로 확인되어 추가 처리는 진행하지 않았다.</p>
+
+<p>○ 이상치 확인 (IQR 기준)</p>
+<div class="figure">
+  <img src="output/heart-figures/outliers_boxplot.png" alt="이상치 박스플롯">
+  <div class="figure-cap">[그림] 주요 수치형 변수 이상치 박스플롯</div>
+</div>
+
+<table>
+  <tr><th>변수</th><th>이상치 개수</th><th>정상 범위</th></tr>
+  <tr><td>Age</td><td>0개</td><td>27.5 ~ 79.5</td></tr>
+  <tr><td>RestingBP</td><td>27개</td><td>90.0 ~ 170.0</td></tr>
+  <tr><td>Cholesterol</td><td>41개</td><td>134.5 ~ 346.5</td></tr>
+  <tr><td>MaxHR</td><td>2개</td><td>66.0 ~ 210.0</td></tr>
+  <tr><td>Oldpeak</td><td>16개</td><td>-2.2 ~ 3.8</td></tr>
+</table>
+<p>임상 검진값 특성상 정상범위를 벗어난 값도 실제 환자의 병리적 소견(고혈압, 고콜레스테롤 등)일 가능성이 높아, 별도 제거 없이 모델 학습에 그대로 활용했다.</p>
+
+<p>○ 다중공선성 분석</p>
+<div class="figure">
+  <img src="output/heart-figures/correlation_heatmap.png" alt="상관관계 히트맵">
+  <div class="figure-cap">[그림] 변수 간 상관관계 히트맵 (범주형 변수는 LabelEncoder로 임시 인코딩)</div>
+</div>
+<p>위 상관관계 분석 결과, 변수 간 상관계수가 0.9를 초과하는 다중공선성 문제는 발견되지 않았다. ST_Slope, ExerciseAngina, Oldpeak 등이 타깃(HeartDisease)과 비교적 높은 상관관계를 보였다.</p>
+
+<div class="footer-page">- 5 -</div>
+
+<!-- ============ Page 6: 분포 + 인코딩/스케일링 ============ -->
+<div class="page-break"></div>
+<p>○ 주요 변수별 분포 (타깃 대비)</p>
+<div class="figure">
+  <img src="output/heart-figures/distribution_by_target.png" alt="타깃별 변수 분포">
+  <div class="figure-cap">[그림] HeartDisease(0/1)에 따른 주요 수치형 변수 분포</div>
+</div>
+<p>MaxHR(최대심박수)은 질환군에서 낮은 값으로 치우친 분포를 보이고, Oldpeak(ST 분절 하강)은 질환군에서 더 높은 값으로 치우친 분포를 보인다. 두 변수가 질환 여부와 유의미한 관계를 가짐을 시각적으로 확인할 수 있다.</p>
+
+<h4>나. 인코딩 및 스케일링</h4>
+<ul class="bullet">
+  <li>이진 범주형 변수(Sex, ExerciseAngina)는 0/1로 매핑했다.</li>
+  <li>다범주 변수(ChestPainType, RestingECG, ST_Slope)는 원-핫 인코딩(drop_first=True)을 적용했다.</li>
+  <li>스케일에 민감한 로지스틱회귀용으로 StandardScaler, MinMaxScaler, RobustScaler 3종을 모두 적용해보고 비교했으며, 트리 기반 모델(랜덤포레스트, 부스팅 계열)은 스케일링 없이 인코딩된 원본을 그대로 사용했다.</li>
+  <li>Train/Test는 8:2로 분리했으며(733건 / 184건), <span class="note-red">스케일러는 Train 데이터에만 fit하고 Test에는 transform만 적용하여 데이터 누수(data leakage)를 방지</span>했다.</li>
+</ul>
+
+<p>○ 스케일러 비교 (Logistic Regression 기준)</p>
+<table>
+  <tr><th>스케일러</th><th>Accuracy</th><th>ROC-AUC</th></tr>
+  <tr class="highlight"><td>MinMaxScaler</td><td>0.8750</td><td>0.9218</td></tr>
+  <tr><td>StandardScaler</td><td>0.8804</td><td>0.9204</td></tr>
+  <tr><td>RobustScaler</td><td>0.8804</td><td>0.9204</td></tr>
+</table>
+<p>ROC-AUC 기준으로는 MinMaxScaler가 근소하게 가장 높고, Accuracy 기준으로는 StandardScaler·RobustScaler가 근소하게 더 높다. 세 스케일러 간 성능 차이는 0.001~0.002 수준으로 <span class="note-red">실질적인 차이는 없는 것으로 판단</span>되며, 이는 본 데이터셋에 극단적인 이상치가 적어 RobustScaler의 이상치 강건성이 두드러지게 작용하지 않았기 때문으로 해석된다. 이후 모델 비교 및 최종 모델 선정에는 일반적으로 가장 널리 쓰이는 <span class="note-red">StandardScaler 적용본을 기준</span>으로 사용했다.</p>
+
+<div class="footer-page">- 6 -</div>
+
+<!-- ============ Page 7: 모델 비교 ============ -->
+<div class="page-break"></div>
+<h4>3. 데이터 학습 및 모델 정의</h4>
+<p><strong>가. 모델 비교 및 선정</strong></p>
+<table>
+  <tr><th>모델</th><th>Accuracy</th><th>ROC-AUC</th></tr>
+  <tr><td>Logistic Regression</td><td>0.8804</td><td>0.9204</td></tr>
+  <tr><td>Random Forest (tuned)</td><td>0.8804</td><td>0.9294</td></tr>
+  <tr><td>XGBoost (tuned)</td><td>0.8859</td><td>0.9466</td></tr>
+  <tr class="highlight"><td>GradientBoosting (tuned)</td><td>0.8967</td><td>0.9456</td></tr>
+  <tr><td>LightGBM (tuned)</td><td>0.8750</td><td>0.9470</td></tr>
+</table>
+
+<p>○ 모델 선정 결론</p>
+<p>5개 모델(로지스틱회귀, 랜덤포레스트, GradientBoosting, XGBoost, LightGBM) 중 부스팅 계열 3종은 모두 GridSearchCV(5-fold, scoring=roc_auc)로 하이퍼파라미터를 튜닝했다. ROC-AUC만 보면 LightGBM(0.947)·XGBoost(0.947)·GradientBoosting(0.946)이 0.001~0.0014 차이로 사실상 동급이었다. 본 과제는 정밀검사(관상동맥 조영술 등)의 과잉 시행과 위험 신호 누락을 동시에 줄이는 것이 목적이므로, 임계값 0.5 기준 실제 분류 성능(Accuracy, 클래스별 Recall/Precision)을 우선 기준으로 재검토했다. <span class="note-red">GradientBoosting이 Accuracy 89.7%로 가장 높고, 질환(class=1) Recall 0.92(누락 최소화)와 정상(class=0) Recall 0.86(과잉검사 최소화)의 균형이 가장 우수</span>해 최종 모델로 채택했다. 해석 가능성을 위한 베이스라인으로는 로지스틱회귀를 함께 비교 대상으로 유지했다.</p>
+
+<p><strong>- 로지스틱회귀 베이스라인</strong></p>
+<div class="figure">
+  <img src="output/heart-figures/logreg_coefficients.png" alt="로지스틱회귀 계수">
+  <div class="figure-cap">[그림] 로지스틱회귀 변수별 회귀 계수</div>
+</div>
+<p>ST_Slope_Up(ST 기울기 상승), Sex(성별) 등이 음의 방향으로, ChestPainType_ATA, Oldpeak 등이 양의 방향으로 질환 발생 가능성에 영향을 미치는 것으로 나타났다. 해석은 직관적이나 ROC-AUC 0.9204로 트리 계열보다 다소 낮은 성능을 보였다.</p>
+
+<div class="footer-page">- 7 -</div>
+
+<!-- ============ Page 8: 랜덤포레스트 + 하이퍼파라미터 ============ -->
+<div class="page-break"></div>
+<p><strong>- 랜덤포레스트 (성능용)</strong></p>
+<p>복잡한 비선형 패턴 학습에 강점이 있는 랜덤포레스트 분류 모델을 적용했다. 기본 모델 ROC-AUC는 0.9294였으며, GridSearchCV를 통한 하이퍼파라미터 최적화를 진행했다.</p>
+
+<table>
+  <tr><th>하이퍼파라미터</th><th>탐색 값</th></tr>
+  <tr><td>트리 개수(n_estimators)</td><td>100, 200, 400</td></tr>
+  <tr><td>최대 깊이(max_depth)</td><td>4, 8, 12, <span class="note-red">None</span></td></tr>
+  <tr><td>최대 성분(max_features)</td><td><span class="note-red">sqrt</span>, log2</td></tr>
+</table>
+<p>※ 빨강색으로 표시된 값이 GridSearchCV(5-fold, scoring=roc_auc)를 통해 선정된 최적 하이퍼파라미터이다 (n_estimators=100, max_depth=None, max_features='sqrt'). 최적화 후 ROC-AUC는 0.9294로 기본 모델과 동일했다.</p>
+
+<div class="figure">
+  <img src="output/heart-figures/rf_feature_importance.png" alt="랜덤포레스트 변수 중요도">
+  <div class="figure-cap">[그림] 랜덤포레스트 변수 중요도</div>
+</div>
+
+<p><strong>- Boosting 계열 모델 (GradientBoosting / XGBoost / LightGBM)</strong></p>
+<p>트리 기반 부스팅 계열 3종을 추가로 비교했으며, 랜덤포레스트와 동일하게 GridSearchCV(5-fold, scoring=roc_auc)로 각 모델의 하이퍼파라미터를 튜닝했다. ROC-AUC는 LightGBM 0.9470, XGBoost 0.9466, GradientBoosting 0.9456으로 0.0014 이내의 근소한 차이였다. 반면 Accuracy 기준으로는 <span class="note-red">GradientBoosting(learning_rate=0.1, max_depth=2, n_estimators=100)이 89.7%로 가장 높았고</span>, LightGBM은 87.5%로 랜덤포레스트(88.0%)보다도 낮았다. ROC-AUC는 모든 임계값을 종합한 구분 능력이고 Accuracy는 실제 운영 임계값(0.5)에서의 분류 성능이라는 점에서 차이가 발생했으며, 본 과제의 실무 목적(정밀검사 남용·위험 신호 누락 동시 최소화)에는 0.5 임계값 기준 성능이 더 중요하다고 판단해 GradientBoosting을 최종 모델로 선정했다.</p>
+
+<div class="footer-page">- 8 -</div>
+
+<!-- ============ Page 9: 최종 결과 시각화 ============ -->
+<div class="page-break"></div>
+<h4>4. 최종 결과 시각화</h4>
+<p><strong>가. 모델 비교 - Confusion Matrix</strong></p>
+<div class="figure">
+  <img src="output/heart-figures/confusion_matrices.png" alt="Confusion Matrix comparison">
+  <div class="figure-cap">[그림] Logistic Regression, Random Forest, GradientBoosting 3개 모델의 Confusion Matrix 비교</div>
+</div>
+<p>로지스틱회귀·랜덤포레스트·최종 모델인 GradientBoosting 3종만 비교했다. GradientBoosting은 세 모델 중 Accuracy(89.7%)가 가장 높고, 질환(class=1) Recall 0.92와 정상(class=0) Recall 0.86으로 두 클래스 모두에서 가장 균형 잡힌 분류 성능을 보였다.</p>
+
+<p><strong>나. 최종 모델(GradientBoosting) 최적 하이퍼파라미터</strong></p>
+<table>
+  <tr><th>하이퍼파라미터</th><th>탐색 값</th></tr>
+  <tr><td>트리 개수(n_estimators)</td><td><span class="note-red">100</span>, 200, 400</td></tr>
+  <tr><td>학습률(learning_rate)</td><td>0.01, 0.05, <span class="note-red">0.1</span></td></tr>
+  <tr><td>최대 깊이(max_depth)</td><td><span class="note-red">2</span>, 3, 4</td></tr>
+</table>
+<p>※ 빨강색으로 표시된 값이 GridSearchCV(5-fold, scoring=roc_auc)를 통해 선정된 최적 하이퍼파라미터이다 (n_estimators=100, learning_rate=0.1, max_depth=2). 최적화 후 ROC-AUC는 0.9456, Accuracy는 0.8967을 기록했다.</p>
+
+<p><strong>다. 최종 모델(GradientBoosting) 변수 중요도</strong></p>
+<div class="figure">
+  <img src="output/heart-figures/gb_feature_importance.png" alt="GradientBoosting feature importance">
+  <div class="figure-cap">[그림] GradientBoosting 최종 모델 변수 중요도</div>
+</div>
+<p>로지스틱회귀·랜덤포레스트와 마찬가지로 ST_Slope, ExerciseAngina, Oldpeak 등 운동부하검사 관련 지표가 GradientBoosting의 분류 결정에도 핵심적인 영향을 미치는 것으로 확인됐다.</p>
+
+<p><strong>라. 샘플 데이터를 통한 예측 결과</strong></p>
+<div class="figure">
+  <img src="output/heart-figures/gb_sample_prediction.png" alt="GradientBoosting prediction on sample data">
+  <div class="figure-cap">[그림] 테스트셋 샘플 40건에 대한 GradientBoosting 예측 확률과 실제 라벨 비교</div>
+</div>
+<p>테스트셋 샘플 40건을 추출해 실제 라벨(점)과 모델이 예측한 HeartDisease 확률(선)을 함께 표시했다. 대부분의 샘플에서 예측 확률이 0.5 임계값을 기준으로 실제 라벨과 같은 방향에 위치해, 모델이 양성/음성 구분 경향을 잘 따라가고 있음을 확인할 수 있다.</p>
+
+<div class="footer-page">- 9 -</div>
+
+<!-- ============ Page 10: 데이터 프로파일링 ============ -->
+<div class="page-break"></div>
+<h4>5. 데이터 프로파일링 리포트</h4>
+<p>○ 임상 검진 데이터</p>
+<p>- 데이터 샘플 상단부</p>
+<table>
+  <tr><th>Age</th><th>Sex</th><th>ChestPainType</th><th>RestingBP</th><th>Cholesterol</th><th>FastingBS</th><th>RestingECG</th><th>MaxHR</th><th>ExerciseAngina</th><th>Oldpeak</th><th>ST_Slope</th><th>HeartDisease</th></tr>
+  <tr><td>40</td><td>M</td><td>ATA</td><td>140</td><td>289</td><td>0</td><td>Normal</td><td>172</td><td>N</td><td>0.0</td><td>Up</td><td>0</td></tr>
+  <tr><td>49</td><td>F</td><td>NAP</td><td>160</td><td>180</td><td>0</td><td>Normal</td><td>156</td><td>N</td><td>1.0</td><td>Flat</td><td>1</td></tr>
+  <tr><td>37</td><td>M</td><td>ATA</td><td>130</td><td>283</td><td>0</td><td>ST</td><td>98</td><td>N</td><td>0.0</td><td>Up</td><td>0</td></tr>
+  <tr><td>48</td><td>F</td><td>ASY</td><td>138</td><td>214</td><td>0</td><td>Normal</td><td>108</td><td>Y</td><td>1.5</td><td>Flat</td><td>1</td></tr>
+  <tr><td>54</td><td>M</td><td>NAP</td><td>150</td><td>195</td><td>0</td><td>Normal</td><td>122</td><td>N</td><td>0.0</td><td>Up</td><td>0</td></tr>
+</table>
+
+<p>- 기본 통계 요약 (전체 918건)</p>
+<table>
+  <tr><th>구분</th><th>Age</th><th>RestingBP</th><th>Cholesterol</th><th>MaxHR</th><th>Oldpeak</th></tr>
+  <tr><td>평균</td><td>53.51</td><td>132.40</td><td>198.80</td><td>136.81</td><td>0.89</td></tr>
+  <tr><td>표준편차</td><td>9.43</td><td>18.51</td><td>109.38</td><td>25.46</td><td>1.07</td></tr>
+  <tr><td>최소</td><td>28</td><td>0</td><td>0</td><td>60</td><td>-2.6</td></tr>
+  <tr><td>최대</td><td>77</td><td>200</td><td>603</td><td>202</td><td>6.2</td></tr>
+</table>
+
+<div class="footer-page">- 10 -</div>
+
+<!-- ============ Page 11: 주요 변수 통계 및 분포도 ============ -->
+<div class="page-break"></div>
+<p>- 주요 변수 통계 및 분포도</p>
+
+<div class="profile-box">
+  <h4>Age (나이)</h4>
+  <span class="badge">Real number (R)</span>
+  <div class="profile-grid">
+    <div>Distinct: 50</div><div>Minimum: 28</div>
+    <div>Missing: 0 (0.0%)</div><div>Maximum: 77</div>
+    <div>Mean: 53.51</div><div>Memory size: 7.3 KiB</div>
+  </div>
+</div>
+
+<div class="profile-box">
+  <h4>MaxHR (최대심박수)</h4>
+  <span class="badge">Real number (R)</span>
+  <div class="profile-grid">
+    <div>Distinct: 119</div><div>Minimum: 60</div>
+    <div>Missing: 0 (0.0%)</div><div>Maximum: 202</div>
+    <div>Mean: 136.81</div><div>Memory size: 7.3 KiB</div>
+  </div>
+</div>
+
+<div class="profile-box">
+  <h4>Cholesterol (콜레스테롤, 대체 후)</h4>
+  <span class="badge">Real number (R)</span>
+  <span class="badge" style="background:#1a5fb4;">Imputed</span>
+  <div class="profile-grid">
+    <div>Distinct: 220</div><div>Minimum: 85</div>
+    <div>Missing(원본 0값): 172건(18.7%)</div><div>Maximum: 603</div>
+    <div>Mean(대체 후): 244.57</div><div>Memory size: 7.3 KiB</div>
+  </div>
+</div>
+
+<div class="profile-box">
+  <h4>Oldpeak (ST 분절 하강)</h4>
+  <span class="badge">Real number (R)</span>
+  <span class="badge" style="background:#c0392b;">High correlation</span>
+  <div class="profile-grid">
+    <div>Distinct: 53</div><div>Minimum: -2.6</div>
+    <div>Missing: 0 (0.0%)</div><div>Maximum: 6.2</div>
+    <div>Mean: 0.89</div><div>Memory size: 7.3 KiB</div>
+  </div>
+</div>
+
+<div class="footer-page">- 11 -</div>
+
+<!-- ============ Page 12: 타깃 분포 + 결론 ============ -->
+<div class="page-break"></div>
+<div class="profile-box">
+  <h4>HeartDisease (타깃, 1=발생/0=정상)</h4>
+  <span class="badge">Categorical</span>
+  <div class="profile-grid">
+    <div>Distinct: 2</div><div>1(발생): 508건 (55.3%)</div>
+    <div>Missing: 0 (0.0%)</div><div>0(정상): 410건 (44.7%)</div>
+  </div>
+</div>
+
+<h3>6. 결론 및 향후 계획</h3>
+<p><strong>가. 모델 개발 결과 요약</strong></p>
+<p>로지스틱회귀, 랜덤포레스트, GradientBoosting, XGBoost, LightGBM 5개 모델을 시도했으며, 부스팅 계열 3종은 모두 GridSearchCV로 하이퍼파라미터를 튜닝했다. ROC-AUC만 보면 LightGBM(0.947)·XGBoost(0.947)·GradientBoosting(0.946)이 0.0014 이내로 거의 동일했다. 본 과제의 목적이 정밀검사 남용과 위험 신호 누락을 동시에 줄이는 것이므로, 실제 운영 임계값(0.5)에서의 분류 성능을 기준으로 재검토한 결과 <span class="note-red">GradientBoosting이 Accuracy 89.7%, 질환 Recall 0.92·정상 Recall 0.86으로 누락 방지와 과잉검사 방지의 균형이 가장 우수</span>해 최종 모델로 채택했다. ST_Slope, ExerciseAngina, Oldpeak, MaxHR 등 운동부하검사 관련 지표가 질환 발생 예측에 큰 기여를 하는 것으로 확인되었으며, 해석용 베이스라인인 로지스틱회귀 계수 분석을 통해 각 변수의 영향 방향을 함께 제시했다.</p>
+
+<p><strong>나. 실무 적용 방안</strong></p>
+<p>건강검진 단계에서 본 모델을 적용하면, 정밀검사(관상동맥 조영술 등) 이전 단계에서 고위험군을 효율적으로 선별할 수 있어 검진 자원의 우선순위를 조정하는 데 활용될 수 있을 것으로 기대된다.</p>
+
+<p><strong>다. 한계점 및 개선 방향</strong></p>
+<ul class="bullet">
+  <li>본 데이터셋은 단일 시점 검진 데이터로, 환자의 추적 관찰(longitudinal) 데이터가 없어 질환 진행 양상을 반영하지 못한다.</li>
+  <li>Cholesterol 결측치(0값) 대체는 타깃 그룹 중앙값을 사용했는데, 그룹 정보를 사용하지 않는 방식(예: KNN Imputer)과의 성능 비교가 추가로 필요하다.</li>
+  <li>StandardScaler, MinMaxScaler, RobustScaler 3종을 비교한 결과 성능 차이가 미미했는데, 이는 현재 데이터 규모(918건)에서는 스케일러 선택보다 모델군 선택(예: 부스팅 계열 도입)이 성능 개선에 더 크게 기여함을 시사한다.</li>
+  <li>현재 918건의 관측치로는 모델의 일반화 성능을 보장하기 어려우며, 데이터가 추가 확보되면 모델 성능을 개선할 수 있을 것으로 예상된다.</li>
+  <li>추후 SHAP 등 모델 해석 기법을 도입하여 환자 개별 단위의 위험 요인 설명력을 강화할 수 있을 것이다.</li>
+</ul>
+
+<div class="footer-page">- 12 -</div>
+
+</body>
+</html>
