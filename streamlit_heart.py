@@ -21,13 +21,17 @@ def load_model():
 
 
 def encode_input(raw_input: pd.DataFrame, feature_columns: list[str]) -> pd.DataFrame:
+    # pd.get_dummies(drop_first=True)는 1행 입력에서 그 유일한 카테고리를 항상
+    # 드롭해버려 어떤 값을 선택해도 0으로 인코딩되는 문제가 있어, 학습 시 만들어진
+    # feature_columns의 더미 컬럼명을 기준으로 직접 매핑한다.
     encoded = raw_input.copy()
     encoded["Sex"] = encoded["Sex"].map({"M": 1, "F": 0})
     encoded["ExerciseAngina"] = encoded["ExerciseAngina"].map({"Y": 1, "N": 0})
-    encoded = pd.get_dummies(
-        encoded, columns=["ChestPainType", "RestingECG", "ST_Slope"],
-        drop_first=True, dtype=int,
-    )
+    for column in ["ChestPainType", "RestingECG", "ST_Slope"]:
+        value = encoded.pop(column).iloc[0]
+        dummy_column = f"{column}_{value}"
+        if dummy_column in feature_columns:
+            encoded[dummy_column] = 1
     return encoded.reindex(columns=feature_columns, fill_value=0)
 
 
