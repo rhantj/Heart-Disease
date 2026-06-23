@@ -15,6 +15,9 @@
 
 ## Streamlit 앱
 
+배포된 앱: https://heartdiseasemachine.streamlit.app/
+
+로컬 실행:
 ```bash
 pip install -r requirements.txt
 streamlit run streamlit_heart.py
