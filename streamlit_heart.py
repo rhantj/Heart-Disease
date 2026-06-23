@@ -78,19 +78,20 @@ with tab_predict:
         col1, col2 = st.columns(2)
 
         with col1:
-            age = st.number_input("Age", min_value=1, max_value=120, value=50)
-            sex = st.selectbox("Sex", ["M", "F"])
-            chest_pain_type = st.selectbox("ChestPainType", ["ATA", "NAP", "ASY", "TA"])
-            resting_bp = st.number_input("RestingBP", min_value=0, max_value=250, value=120)
-            cholesterol = st.number_input("Cholesterol", min_value=0, max_value=700, value=200)
-
-        with col2:
-            fasting_bs = st.selectbox("FastingBS (>120 mg/dl)", [0, 1])
-            resting_ecg = st.selectbox("RestingECG", ["Normal", "ST", "LVH"])
-            max_hr = st.number_input("MaxHR", min_value=60, max_value=220, value=150)
+            st.caption("예측에 영향이 큰 변수")
+            st_slope = st.selectbox("ST_Slope", ["Up", "Flat", "Down"])
             exercise_angina = st.selectbox("ExerciseAngina", ["N", "Y"])
             oldpeak = st.number_input("Oldpeak", min_value=-3.0, max_value=7.0, value=0.0, step=0.1)
-            st_slope = st.selectbox("ST_Slope", ["Up", "Flat", "Down"])
+            cholesterol = st.number_input("Cholesterol", min_value=0, max_value=700, value=200)
+            chest_pain_type = st.selectbox("ChestPainType", ["ATA", "NAP", "ASY", "TA"])
+
+        with col2:
+            age = st.number_input("Age", min_value=1, max_value=120, value=50)
+            sex = st.selectbox("Sex", ["M", "F"])
+            max_hr = st.number_input("MaxHR", min_value=60, max_value=220, value=150)
+            resting_bp = st.number_input("RestingBP", min_value=0, max_value=250, value=120)
+            fasting_bs = st.selectbox("FastingBS (>120 mg/dl)", [0, 1])
+            resting_ecg = st.selectbox("RestingECG", ["Normal", "ST", "LVH"])
 
         submitted = st.form_submit_button("예측하기")
 
